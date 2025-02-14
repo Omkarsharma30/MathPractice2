@@ -1,0 +1,1322 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<meta name="author" content="Make by Omkar Sharma">
+	<title>Math Practice</title>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+	<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+	<style>
+		/* Modern UI styles */
+		:root {
+			--primary: #2563eb;
+			--primary-dark: #1d4ed8;
+			--easy-color: #16a34a;
+			--medium-color: #ca8a04;
+			--hard-color: #dc2626;
+			--text-dark: #1e293b;
+			--text-light: #64748b;
+			--bg-gradient: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
+			--shadow-sm: 0 2px 4px rgba(0,0,0,0.05);
+			--shadow-md: 0 4px 6px rgba(0,0,0,0.1);
+			--shadow-lg: 0 10px 15px rgba(0,0,0,0.1);
+		}
+
+		body {
+			background: var(--bg-gradient);
+			min-height: 100vh;
+			padding: 2rem 0;
+		}
+		.container {
+			padding: 2rem;
+			margin: 0 auto;
+			max-width: 1000px;
+		}
+		.question-container {
+			background: white;
+			box-shadow: var(--shadow-lg);
+			transform: translateY(0);
+			transition: transform 0.3s ease, box-shadow 0.3s ease;
+			padding: 2rem;
+			margin: 2rem auto;
+		}
+
+		.question-container:hover {
+			transform: translateY(-5px);
+			box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+		}
+		.stats-container {
+			background: rgba(255, 255, 255, 0.9);
+			backdrop-filter: blur(10px);
+			border: 1px solid rgba(255, 255, 255, 0.5);
+			box-shadow: var(--shadow-sm);
+		}
+		.form-select {
+			background: white;
+			box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+		}
+		.number-btn {
+			background: white;
+			border: 2px solid #e2e8f0;
+			box-shadow: var(--shadow-sm);
+			transition: all 0.2s ease;
+			border-radius: 12px;
+			font-weight: bold;
+		}
+
+		.number-btn:hover {
+			background: #f8fafc;
+			border-color: #cbd5e1;
+			transform: translateY(-2px);
+		}
+		.number-btn:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+		}
+		.btn-primary {
+			background: var(--primary);
+			border: none;
+			box-shadow: var(--shadow-md);
+			transition: all 0.3s ease;
+			font-weight: 600;
+			letter-spacing: 0.5px;
+			padding: 1rem 3rem;
+			font-size: 1.3rem;
+			border-radius: 10px;
+			min-width: 200px;
+		}
+		.answer-input {
+			box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+		}
+		.history-container {
+			background: white;
+			box-shadow: var(--shadow-lg);
+			border-radius: 20px;
+			padding: 2rem;
+			margin: 3rem auto 2rem;
+		}
+		.table {
+			border-radius: 15px;
+			overflow: hidden;
+		}
+		.table tbody tr {
+			transition: background-color 0.2s ease;
+		}
+		.table tbody tr:hover {
+			background-color: #f8fafc;
+		}
+		.badge {
+			transition: transform 0.2s ease;
+		}
+		.badge:hover {
+			transform: scale(1.05);
+		}
+		.table thead {
+			background: #f8f9fa;
+		}
+		
+		.table th {
+			color: var(--text-dark);
+			font-weight: 600;
+		}
+
+		.table td {
+			color: var(--text-light);
+			padding: 1rem 0.8rem;
+		}
+		.badge {
+			padding: 0.5rem 1rem;
+			border-radius: 20px;
+		}
+		h1 {
+			color: var(--text-dark);
+			font-size: 2.5rem;
+			font-weight: 800;
+			margin-bottom: 2rem;
+		}
+
+		.footer {
+			background: white;
+			box-shadow: 0 -5px 20px rgba(0,0,0,0.05);
+		}
+		@keyframes floatIn {
+			0% { transform: translateY(20px); opacity: 0; }
+			100% { transform: translateY(0); opacity: 1; }
+		}
+
+		.question-container {
+			animation: floatIn 0.6s ease-out forwards;
+			border: 1px solid rgba(0,0,0,0.05);
+		}
+
+		.history-container {
+			animation: floatIn 0.8s ease-out forwards;
+			border: 1px solid rgba(0,0,0,0.05);
+		}
+
+		/* Root variables and base styles */
+		.btn-primary {
+			background: var(--primary);
+			border: none;
+			box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+			transition: all 0.3s ease;
+			font-weight: 600;
+			letter-spacing: 0.5px;
+		}
+
+		.btn-primary:hover {
+			background: var(--primary-dark);
+		}
+		.btn-primary:hover {
+			transform: translateY(-2px);
+			box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+		}
+		.answer-feedback {
+			position: fixed;
+			top: 22%;
+			left: 50%;
+			transform: translate(-50%, -10%) scale(0);
+			padding: 0.8rem;
+			border-radius: 8px;
+			color: white;
+			font-weight: 700;
+			opacity: 0;
+			z-index: 1000;
+			text-align: center;
+			box-shadow: 0 6px 12px rgba(0,0,0,0.3);
+			width: 40%;  /* Set exact width to 40% */
+			min-width: auto;  /* Remove min-width constraint */
+			max-width: 40%;  /* Match width */
+			transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+			backdrop-filter: blur(10px);
+		}
+
+		.answer-feedback.show {
+			transform: translate(-50%, -10%) scale(1);
+			opacity: 1;
+		}
+
+		.answer-feedback.correct {
+			background: linear-gradient(135deg, #16a34a, #059669);
+		}
+
+		.answer-feedback.incorrect {
+			background: linear-gradient(135deg, #dc2626, #b91c1c);
+		}
+
+		.feedback-content {
+			display: flex;
+			flex-direction: column;
+			align-items: center;
+			gap: 0.5rem;
+		}
+
+		.feedback-icon {
+			font-size: 1.5rem;
+			line-height: 1;
+		}
+
+		.feedback-title {
+			font-size: 1rem;
+			font-weight: 800;
+			letter-spacing: 0.5px;
+			text-transform: uppercase;
+		}
+
+		.feedback-answer {
+			font-size: 0.8rem;
+			line-height: 1.3;
+		}
+
+		@media (max-width: 768px) {
+			.answer-feedback {
+				width: 60%;  /* Slightly wider on mobile */
+				max-width: 60%;
+				padding: 0.6rem;
+			}
+			.feedback-icon {
+				font-size: 1.2rem;
+			}
+			.feedback-title {
+				font-size: 0.8rem;
+			}
+			.feedback-answer {
+				font-size: 0.7rem;
+			}
+		}
+
+
+
+		.question-container {
+			position: relative;
+			overflow: hidden;
+		}
+		.question-container::before {
+			content: '';
+			position: absolute;
+			top: 0;
+			left: 0;
+			right: 0;
+			height: 4px;
+			background: linear-gradient(to right, var(--easy-color), var(--medium-color), var(--hard-color));
+		}
+		:root {
+			--easy-color: #28a745;
+			--medium-color: #ffc107;
+			--hard-color: #dc3545;
+		}
+		/* Add touch-friendly improvements */
+		.answer-input {
+			-moz-appearance: textfield;
+			appearance: textfield;
+		}
+		.answer-input::-webkit-inner-spin-button, 
+		.answer-input::-webkit-outer-spin-button { 
+			-webkit-appearance: none;
+		}
+		.btn-primary, .number-btn {
+			transition: transform 0.1s, background-color 0.2s;
+		}
+		.btn-primary:active, .number-btn:active {
+			transform: scale(0.95);
+		}
+		.form-select {
+			background-color: white;
+			border: 2px solid #dee2e6;
+			transition: all 0.3s ease;
+		}
+		.form-select:hover {
+			border-color: #adb5bd;
+		}
+		.answer-input:focus {
+			box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.1);
+			border-color: #3b82f6;
+		}
+		@keyframes fadeIn {
+			from { opacity: 0; transform: translateY(10px); }
+			to { opacity: 1; transform: translateY(0); }
+		}
+		.question {
+			animation: fadeIn 0.3s ease-out;
+		}
+		@media (max-width: 768px) {
+
+			.number-controls {
+				flex-wrap: wrap;
+			}
+			.number-btn {
+				flex: 1;
+				min-width: 60px;
+			}
+		}
+
+		.question-container {
+			max-width: 800px;
+			margin: 2rem auto;
+			padding: 1.5rem;
+			border-radius: 15px;
+			box-shadow: 0 0 15px rgba(0,0,0,0.1);
+			background: linear-gradient(145deg, #ffffff, #f8f9fa);
+			border: 1px solid rgba(0,0,0,0.1);
+		}
+		.stats-container {
+			background: linear-gradient(145deg, #f8f9fa, #e9ecef);
+			padding: 1rem;
+			border-radius: 10px;
+			margin-bottom: 1.5rem;
+			border: 1px solid rgba(0,0,0,0.1);
+		}
+		.difficulty-badge {
+			font-size: 1rem;
+			padding: 0.5rem 1.5rem;
+			border-radius: 20px;
+			font-weight: 600;
+			color: white;
+		}
+
+		.difficulty-badge.difficulty-medium {
+			color: var(--text-dark);
+		}
+		.difficulty-badge.difficulty-easy { background: var(--easy-color); }
+		.difficulty-badge.difficulty-medium { background: var(--medium-color); }
+		.difficulty-badge.difficulty-hard { background: var(--hard-color); }
+		.timer { font-size: 1.3rem; color: #dc3545; font-weight: 600; }
+		.score { font-size: 1.3rem; color: #28a745; font-weight: 600; }
+		.difficulty { font-weight: 600; }
+		.question { 
+			font-size: 2rem; 
+			margin: 2rem 0;
+			word-break: break-word;
+			line-height: 1.4;
+		}
+		.answer-input {
+			font-size: 1.5rem;
+			width: 100%;
+			max-width: 300px;
+			margin: 1.5rem auto;
+			padding: 1rem;
+			height: auto;
+			border-radius: 10px;
+			text-align: center;
+			font-weight: 500;
+		}
+		.btn-primary {
+			padding: 1rem 3rem;
+			font-size: 1.3rem;
+			border-radius: 10px;
+			min-width: 200px;
+		}
+		.form-select {
+			padding: 1rem;
+			font-size: 1.2rem;
+			border-radius: 10px;
+			margin-bottom: 1.5rem;
+		}
+		.history-container {
+			margin-top: 2rem;
+			padding: 1rem;
+			border-radius: 10px;
+			background: #f8f9fa;
+		}
+		.table {
+			margin-top: 1rem;
+			background: white;
+			border-radius: 10px;
+		}
+		
+		/* Tablet Styles */
+		@media (max-width: 992px) {
+			.container { padding: 1rem; }
+			.question { font-size: 1.8rem; }
+			.answer-input { max-width: 250px; }
+		}
+		
+		/* Mobile Styles */
+		@media (max-width: 768px) {
+			h1 { font-size: 2rem; }
+			.container { padding: 1rem 0.8rem; }
+			.question-container {
+				padding: 1.5rem 1rem;
+				margin: 1rem 0.5rem;
+			}
+			.history-container {
+				padding: 1.5rem 1rem;
+				margin: 2rem 0.5rem 1rem;
+			}
+			.number-controls {
+				gap: 0.3rem;
+				padding: 0.8rem;
+				background: #f8fafc;
+				border-radius: 12px;
+				margin: 1rem -0.5rem;
+			}
+			.number-btn {
+				min-width: 60px;
+				padding: 0.8rem 0.5rem;
+			}
+			.answer-input {
+				font-size: 1.3rem;
+				padding: 0.8rem;
+			}
+			.question { 
+				font-size: 1.5rem;
+				margin: 1.5rem 0;
+			}
+			.timer, .score { font-size: 1.1rem; }
+			.answer-input {
+				font-size: 1.2rem;
+				padding: 0.8rem;
+				max-width: 100%;
+			}
+			.btn-primary {
+				width: 100%;
+				margin-top: 1rem;
+				padding: 0.8rem;
+			}
+			.form-select {
+				padding: 0.8rem;
+				font-size: 1.1rem;
+			}
+			h1 { 
+				font-size: 1.8rem;
+				margin-bottom: 1.5rem;
+			}
+			.d-flex { 
+				flex-direction: column;
+				gap: 0.8rem;
+				text-align: center;
+				background: #f8f9fa;
+				padding: 1rem;
+				border-radius: 10px;
+			}
+			.table { 
+				font-size: 0.9rem;
+				display: block;
+				overflow-x: auto;
+				white-space: nowrap;
+			}
+			.table td, .table th { 
+				padding: 0.8rem;
+			}
+		}
+		
+		/* Small Mobile Styles */
+		@media (max-width: 480px) {
+			.container { 
+				padding: 0.5rem;
+				max-width: 100%;
+			}
+			.question-container { 
+				padding: 0.8rem;
+				margin: 0.25rem auto;
+			}
+			.number-controls {
+				gap: 0.3rem;
+			}
+			.number-btn {
+				padding: 0.5rem;
+				font-size: 1rem;
+				min-width: 45px;
+			}
+			.table td, .table th {
+				padding: 0.5rem 0.3rem;
+				font-size: 0.85rem;
+			}
+			.history-container {
+				margin-top: 1rem;
+				padding: 0.5rem;
+			}
+			h3 { font-size: 1.2rem; }
+			.question { font-size: 1.3rem; }
+			.answer-input { font-size: 1.1rem; }
+			.btn-primary { font-size: 1.1rem; }
+			h1 { font-size: 1.5rem; }
+		}
+		.footer {
+			text-align: center;
+			padding: 2rem 0;
+			background: #f8f9fa;
+			margin-top: 3rem;
+			border-top: 1px solid rgba(0,0,0,0.1);
+		}
+		.footer p {
+			margin: 0;
+			color: #6c757d;
+			font-size: 1rem;
+		}
+		.footer strong {
+			color: #212529;
+		}
+		.copyright {
+			font-size: 0.9rem;
+			margin-top: 0.5rem;
+		}
+		.pulse {
+			animation: pulse 0.5s;
+		}
+		@keyframes pulse {
+			0% { transform: scale(1); }
+			50% { transform: scale(1.05); }
+			100% { transform: scale(1); }
+		}
+		.shake {
+			animation: shake 0.5s;
+		}
+		@keyframes shake {
+			0%, 100% { transform: translateX(0); }
+			25% { transform: translateX(-5px); }
+			75% { transform: translateX(5px); }
+		}
+
+		/* Hint and Level Lock Styles */
+		.hint-container {
+			position: relative;
+			margin-top: 20px;
+			display: flex;
+			justify-content: center;
+			z-index: 900;
+		}
+
+		.hint-btn {
+			position: relative;
+			display: inline-flex;
+			align-items: center;
+			gap: 0.5rem;
+			padding: 0.8rem 2rem;
+			border-radius: 30px;
+			font-weight: 600;
+			font-size: 1.1rem;
+			background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+			color: white;
+			border: none;
+			transition: all 0.3s ease;
+			box-shadow: 0 4px 15px rgba(37, 99, 235, 0.25);
+		}
+
+		.hint-btn:disabled {
+			background: linear-gradient(135deg, #cbd5e1, #94a3b8);
+			cursor: not-allowed;
+			box-shadow: none;
+		}
+
+		.hint-btn:hover:not(:disabled) {
+			transform: translateY(-2px);
+			box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+		}
+
+		.hint-content {
+			background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+			border-radius: 12px;
+			padding: 1.5rem;
+			margin-top: 1rem;
+		}
+
+		.hint-title {
+			font-size: 1.2rem;
+			font-weight: 600;
+			color: var(--primary);
+			margin-bottom: 1rem;
+		}
+
+		.hint-steps {
+			display: flex;
+			flex-direction: column;
+			gap: 0.8rem;
+		}
+
+		.hint-steps div {
+			padding: 0.8rem;
+			background: white;
+			border-radius: 8px;
+			border: 1px solid rgba(0,0,0,0.05);
+			color: var(--text-dark);
+		}
+
+		.hints-left {
+			display: none;
+		}
+
+		.locked-level {
+			opacity: 0.5;
+			cursor: not-allowed;
+		}
+
+		.modal-overlay {
+			position: fixed;
+			top: 0;
+			left: 0;
+			right: 0;
+			bottom: 0;
+			background: rgba(0, 0, 0, 0.7);
+			display: none;
+			justify-content: center;
+			align-items: center;
+			z-index: 1000;
+		}
+
+		.modal-content {
+			background: linear-gradient(145deg, #ffffff, #f8fafc);
+			padding: 2.5rem;
+			border-radius: 15px;
+			max-width: 90%;
+			width: 450px;
+			position: relative;
+			animation: modalSlideIn 0.3s ease;
+			box-shadow: 0 15px 30px rgba(0,0,0,0.15);
+		}
+
+		.modal-content h3 {
+			color: var(--primary);
+			font-size: 1.8rem;
+			margin-bottom: 1.5rem;
+			font-weight: 700;
+			text-align: center;
+			background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+			-webkit-background-clip: text;
+			background-clip: text;
+			-webkit-text-fill-color: transparent;
+		}
+
+		.modal-overlay {
+			backdrop-filter: blur(5px);
+			-webkit-backdrop-filter: blur(5px); /* For Safari support */
+		}
+
+		.progress-container {
+			background: linear-gradient(145deg, #f1f5f9, #e2e8f0);
+			height: 8px;
+			border-radius: 4px;
+			margin-top: 1.5rem;
+			overflow: hidden;
+		}
+
+		.progress-bar {
+			height: 100%;
+			background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+			border-radius: 4px;
+			transition: width 0.5s ease;
+			box-shadow: 0 2px 4px rgba(37, 99, 235, 0.2);
+		}
+
+
+
+
+
+		.hint-btn i {
+			font-size: 1.2rem;
+		}
+
+		.hint-btn:hover {
+			transform: translateY(-3px);
+			box-shadow: 0 6px 20px rgba(37, 99, 235, 0.35);
+		}
+
+		.hint-btn:active {
+			transform: translateY(-1px);
+		}
+
+		@keyframes modalSlideIn {
+			from { transform: translateY(-20px); opacity: 0; }
+			to { transform: translateY(0); opacity: 1; }
+		}
+
+		.modal-close {
+			position: absolute;
+			top: 10px;
+			right: 10px;
+			background: none;
+			border: none;
+			font-size: 1.5rem;
+			cursor: pointer;
+			color: #666;
+		}
+
+		.level-info {
+			display: inline-block;
+			margin-left: 1rem;
+			font-size: 0.9rem;
+			color: var(--text-light);
+		}
+
+		.progress-container {
+			background: #f0f0f0;
+			height: 4px;
+			border-radius: 2px;
+			margin-top: 0.5rem;
+		}
+
+		.progress-bar {
+			height: 100%;
+			background: var(--primary);
+			border-radius: 2px;
+			transition: width 0.3s ease;
+		}
+
+		.number-btn:active {
+			transform: scale(0.95);
+			background: #dee2e6;
+		}
+
+		.difficulty-lock {
+			text-align: right;
+		}
+
+		.lock-btn {
+			background: linear-gradient(135deg, var(--primary), var(--primary-dark));
+			color: white;
+			border: none;
+			padding: 0.5rem 1rem;
+			border-radius: 8px;
+			font-weight: 600;
+			font-size: 0.9rem;
+			transition: all 0.3s ease;
+			box-shadow: 0 2px 8px rgba(37, 99, 235, 0.2);
+		}
+
+		.lock-btn.locked {
+			background: linear-gradient(135deg, var(--hard-color), #ef4444);
+		}
+
+		.lock-btn i {
+			margin-right: 0.5rem;
+		}
+
+		.lock-btn:hover {
+			transform: translateY(-1px);
+			box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+		}
+
+		.stats-container {
+			transition: background-color 0.3s ease;
+		}
+		.stats-container.easy { background: linear-gradient(145deg, white, #f0fdf4); }
+		.stats-container.medium { background: linear-gradient(145deg, white, #fefce8); }
+		.stats-container.hard { background: linear-gradient(145deg, white, #fef2f2); }
+
+		.difficulty-lock-container {
+			margin-top: 10px;
+			display: flex;
+			align-items: center;
+			justify-content: space-between;
+			gap: 1rem;
+		}
+
+		.hint-btn {
+			padding: 5px 15px;
+			font-size: 0.9rem;
+			border-radius: 5px;
+		}
+
+		.difficulty-lock-label {
+			display: flex;
+			align-items: center;
+			cursor: pointer;
+			user-select: none;
+			padding: 5px 10px;
+			border-radius: 5px;
+			background: linear-gradient(145deg, #f8fafc, #f1f5f9);
+			border: 1px solid rgba(0,0,0,0.1);
+			transition: all 0.3s ease;
+		}
+
+		.difficulty-lock-label:hover {
+			background: linear-gradient(145deg, #f1f5f9, #e2e8f0);
+		}
+
+		.difficulty-lock-label input {
+			margin-right: 8px;
+		}
+
+		.lock-text {
+			font-size: 0.9rem;
+			color: var(--text-dark);
+			font-weight: 500;
+		}
+	</style>
+</head>
+<body>
+	<div class="container">
+		<h1 class="text-center mt-4">Math Practice</h1>
+		
+		<div class="question-container">
+			<div class="operation-selector mb-3">
+				<select class="form-select" id="operationSelect">
+					<option value="mixed">Mixed Operations</option>
+					<option value="addition">Addition</option>
+					<option value="subtraction">Subtraction</option>
+					<option value="multiplication">Multiplication</option>
+					<option value="division">Division</option>
+
+
+
+				</select>
+			</div>
+			<div class="difficulty-selector mb-3">
+				<select class="form-select" id="difficultySelect">
+					<option value="easy">Easy</option>
+					<option value="medium">Medium</option>
+					<option value="hard">Hard</option>
+				</select>
+				<div class="difficulty-lock-container">
+					<label class="difficulty-lock-label">
+						<input type="checkbox" id="difficultyLock" onchange="toggleDifficultyLock()">
+						<span class="lock-text">Lock Difficulty Level</span>
+					</label>
+					<button class="hint-btn" id="hintBtn" onclick="showHint()">
+						<i class="fas fa-lightbulb"></i> Get Hint
+					</button>
+				</div>
+			</div>
+
+
+
+			<div class="stats-container">
+				<div class="d-flex justify-content-between">
+					<div class="timer" id="timer">Time: 0s</div>
+					<div class="score" id="score">Score: 0</div>
+					<div class="difficulty" id="difficulty">Level: Easy</div>
+				</div>
+			</div>
+
+			<div class="question text-center" id="questionDisplay"></div>
+
+			<div class="text-center">
+				<input type="number" class="form-control answer-input" id="answerInput" step="1">
+				<button class="btn btn-primary mt-3" id="submitBtn">Submit</button>
+
+			</div>
+
+
+		</div>
+
+
+
+
+		<div class="modal-overlay" id="hintModal">
+			<div class="modal-content">
+				<button class="modal-close" onclick="closeModal('hintModal')">&times;</button>
+				<h3>Hint</h3>
+				<p id="hintText"></p>
+			</div>
+		</div>
+
+		<div class="history-container mt-4">
+			<h3>History</h3>
+			<table class="table">
+				<thead>
+					<tr>
+						<th>Question</th>
+						<th>Your Answer</th>
+						<th>Correct Answer</th>
+						<th>Result</th>
+						<th>Time</th>
+						<th>Difficulty</th>
+					</tr>
+				</thead>
+				<tbody id="historyTableBody"></tbody>
+			</table>
+		</div>
+	</div>
+
+	<div class="answer-feedback" id="answerFeedback"></div>
+	
+	<audio id="correctSound" preload="auto">
+		<source src="https://assets.mixkit.co/active_storage/sfx/2018/correct-2018.wav" type="audio/wav">
+	</audio>
+	<audio id="incorrectSound" preload="auto">
+		<source src="https://assets.mixkit.co/active_storage/sfx/2019/wrong-2019.wav" type="audio/wav">
+	</audio>
+
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+	<script>
+		const gameSettings = {
+			hints: {
+				enabled: true,
+				unlimited: true
+			},
+			levels: {
+				easy: { 
+					color: '#16a34a', 
+					name: 'Easy'
+				},
+				medium: { 
+					color: '#ca8a04', 
+					name: 'Medium'
+				},
+				hard: { 
+					color: '#dc2626', 
+					name: 'Hard'
+				}
+			}
+		};
+
+
+
+		let currentQuestion = {};
+		let score = 0;
+		let timer = 0;
+		let timerInterval;
+		let difficulty = 'easy';
+		let consecutiveCorrect = 0;
+		let maxLevelUnlocked = 'easy';
+		let isDifficultyLocked = false;
+		const history = [];
+
+		function toggleDifficultyLock() {
+			const checkbox = document.getElementById('difficultyLock');
+			const difficultySelect = document.getElementById('difficultySelect');
+			
+			isDifficultyLocked = checkbox.checked;
+			difficultySelect.disabled = isDifficultyLocked;
+			
+			const feedback = document.getElementById('answerFeedback');
+			feedback.innerHTML = `
+				<div class="feedback-content">
+					<div class="feedback-icon">${isDifficultyLocked ? '🔒' : '🔓'}</div>
+					<div class="feedback-text">
+						<div class="feedback-title">Difficulty ${isDifficultyLocked ? 'Locked' : 'Unlocked'}</div>
+						<div class="feedback-answer">
+							${isDifficultyLocked ? 'Difficulty level is now locked' : 'Difficulty level can be changed'}
+						</div>
+					</div>
+				</div>
+			`;
+			feedback.className = `answer-feedback ${isDifficultyLocked ? 'correct' : 'correct'}`;
+			feedback.classList.add('show');
+			setTimeout(() => feedback.classList.remove('show'), 2500);
+		}
+
+
+
+		function updateHintsDisplay() {
+			if (!gameSettings.hints.unlimited) {
+				document.getElementById('hintsLeft').style.display = 'block';
+			} else {
+				document.getElementById('hintsLeft').style.display = 'none';
+				document.getElementById('hintBtn').disabled = false;
+			}
+		}
+
+
+		function showHint() {
+			if (!gameSettings.hints.enabled) return;
+			
+			let hintText = '';
+			const operation = currentQuestion.operation;
+			const num1 = currentQuestion.num1;
+			const num2 = currentQuestion.num2;
+
+			
+			switch(operation) {
+				case 'addition':
+					hintText = `
+						<div class="hint-content">
+							<div class="hint-title">💡 Addition Strategy</div>
+							<div class="hint-steps">
+								<div>1. Break down ${num1} into: ${Math.floor(num1/10)*10} + ${num1%10}</div>
+								<div>2. Break down ${num2} into: ${Math.floor(num2/10)*10} + ${num2%10}</div>
+								<div>3. Add the tens first, then the ones</div>
+								<div>4. Combine your results</div>
+							</div>
+						</div>
+					`;
+					break;
+				case 'subtraction':
+					hintText = `
+						<div class="hint-content">
+							<div class="hint-title">💡 Subtraction Method</div>
+							<div class="hint-steps">
+								<div>1. Start with ${num1}</div>
+								<div>2. First subtract tens: ${num1} - ${Math.floor(num2/10)*10} = ${num1 - Math.floor(num2/10)*10}</div>
+								<div>3. Then subtract ones: ${num1 - Math.floor(num2/10)*10} - ${num2%10}</div>
+							</div>
+						</div>
+					`;
+					break;
+				case 'multiplication':
+					hintText = `
+						<div class="hint-content">
+							<div class="hint-title">💡 Multiplication Trick</div>
+							<div class="hint-steps">
+								<div>Think of it as repeated addition:</div>
+								<div>${num1} + ${num1} + ... (${num2} times)</div>
+								<div>Or break it down:</div>
+								<div>${num1} × ${Math.floor(num2/2)} = ${num1 * Math.floor(num2/2)}</div>
+								<div>Then double it!</div>
+							</div>
+						</div>
+					`;
+					break;
+				case 'division':
+					hintText = `
+						<div class="hint-content">
+							<div class="hint-title">💡 Division Guide</div>
+							<div class="hint-steps">
+								<div>1. ${num1} ÷ ${num2} means:</div>
+								<div>2. How many groups of ${num2} can you make from ${num1}?</div>
+								<div>3. Try multiplying ${num2} by different numbers</div>
+								<div>4. Round to 2 decimal places if needed</div>
+							</div>
+						</div>
+					`;
+					break;
+				case 'percentage':
+					hintText = `
+						<div class="hint-content">
+							<div class="hint-title">💡 Percentage Helper</div>
+							<div class="hint-steps">
+								<div>1. ${num2}% means ${num2}/100</div>
+								<div>2. First: ${num1} ÷ 100 = ${(num1/100).toFixed(2)}</div>
+								<div>3. Then multiply by ${num2}</div>
+								<div>4. Round your answer to 2 decimal places</div>
+							</div>
+						</div>
+					`;
+					break;
+			}
+
+			document.getElementById('hintText').innerHTML = hintText;
+			showModal('hintModal');
+		}
+
+
+		function showModal(modalId) {
+			document.getElementById(modalId).style.display = 'flex';
+		}
+
+		function closeModal(modalId) {
+			document.getElementById(modalId).style.display = 'none';
+		}
+
+		function updateDifficultyDisplay() {
+			const difficultyElement = document.getElementById('difficulty');
+			const statsContainer = document.querySelector('.stats-container');
+			const level = difficulty.charAt(0).toUpperCase() + difficulty.slice(1);
+			
+			difficultyElement.className = `difficulty-badge difficulty-${difficulty}`;
+			difficultyElement.textContent = `Level: ${level}`;
+			
+			statsContainer.classList.remove('easy', 'medium', 'hard');
+			statsContainer.classList.add(difficulty);
+		}
+
+		function getDifficultyRange() {
+			switch(difficulty) {
+				case 'easy':
+					return { max: 20, multiplier: 10 };
+				case 'medium':
+					return { max: 50, multiplier: 25 };
+				case 'hard':
+					return { max: 100, multiplier: 50 };
+			}
+		}
+
+		function updateDifficulty() {
+    if (isDifficultyLocked) {
+        const feedback = document.getElementById('answerFeedback');
+        feedback.innerHTML = `
+            <div class="feedback-content">
+                <div class="feedback-icon">🔒</div>
+                <div class="feedback-text">
+                    <div class="feedback-title">Level Locked</div>
+                    <div class="feedback-answer">
+                        Uncheck the lock to change difficulty level
+                    </div>
+                </div>
+            </div>
+        `;
+        feedback.className = 'answer-feedback incorrect';
+        feedback.classList.add('show');
+        setTimeout(() => feedback.classList.remove('show'), 2500);
+        
+        // Reset select to current difficulty
+        document.getElementById('difficultySelect').value = difficulty;
+        return;
+    }
+    
+    difficulty = document.getElementById('difficultySelect').value;
+    updateDifficultyDisplay();
+    generateQuestion();
+}
+
+
+
+		function generateQuestion() {
+    const operation = document.getElementById('operationSelect').value;
+    let num1, num2, num3 = 0, correctAnswer, questionText;
+    const range = getDifficultyRange();
+    
+    const operations = ['addition', 'subtraction', 'multiplication', 'division'];
+    const selectedOperation = operation === 'mixed' ? 
+        operations[Math.floor(Math.random() * operations.length)] : 
+        operation;
+    
+    switch(selectedOperation) {
+        case 'addition':
+            if (difficulty === 'hard') {
+                num1 = Math.floor(Math.random() * range.max) + range.max/2;
+                num2 = Math.floor(Math.random() * range.max/2);
+                num3 = Math.floor(Math.random() * range.max/4);
+                correctAnswer = num1 + num2 + num3;
+                questionText = `${num1} + ${num2} + ${num3} = ?`;
+            } else {
+                num1 = Math.floor(Math.random() * range.max) + 1;
+                num2 = Math.floor(Math.random() * range.max) + 1;
+                correctAnswer = num1 + num2;
+                questionText = `${num1} + ${num2} = ?`;
+            }
+            break;
+        case 'subtraction':
+            if (difficulty === 'hard') {
+                num1 = Math.floor(Math.random() * range.max) + range.max;
+                num2 = Math.floor(Math.random() * (num1/2));
+                num3 = Math.floor(Math.random() * (num2/2));
+                correctAnswer = num1 - num2 - num3;
+                questionText = `${num1} - ${num2} - ${num3} = ?`;
+            } else {
+                do {
+                    num1 = Math.floor(Math.random() * range.max) + 10;
+                    num2 = Math.floor(Math.random() * num1);
+                } while (num2 >= num1);
+                correctAnswer = num1 - num2;
+                questionText = `${num1} - ${num2} = ?`;
+            }
+            break;
+        case 'multiplication':
+            if (difficulty === 'hard') {
+                num1 = Math.floor(Math.random() * (range.max/4)) + 5;
+                num2 = Math.floor(Math.random() * (range.max/4)) + 5;
+            } else {
+                num1 = Math.floor(Math.random() * (range.max/3)) + 1;
+                num2 = Math.floor(Math.random() * (range.max/3)) + 1;
+            }
+            correctAnswer = num1 * num2;
+            questionText = `${num1} × ${num2} = ?`;
+            break;
+        case 'division':
+            if (difficulty === 'hard') {
+                do {
+                    num2 = Math.floor(Math.random() * 12) + 2;
+                    num1 = num2 * (Math.floor(Math.random() * 8) + 2);
+                } while (num1 % num2 !== 0 || num1 > range.max);
+            } else {
+                do {
+                    num2 = Math.floor(Math.random() * 10) + 2;
+                    num1 = num2 * (Math.floor(Math.random() * 5) + 1);
+                } while (num1 % num2 !== 0 || num1 > range.max);
+            }
+            correctAnswer = num1 / num2;
+            questionText = `${num1} ÷ ${num2} = ?`;
+            break;
+    }
+    
+    currentQuestion = { 
+        num1, 
+        num2, 
+        num3,
+        correctAnswer, 
+        operator: selectedOperation,
+        questionText,
+        operation: selectedOperation 
+    };
+    
+    document.getElementById('questionDisplay').textContent = questionText;
+    resetTimer();
+}
+
+
+		function showFeedback(isCorrect) {
+			const feedback = document.getElementById('answerFeedback');
+			const userAnswer = document.getElementById('answerInput').value;
+			
+			feedback.innerHTML = `
+				<div class="feedback-content">
+					<div class="feedback-icon">${isCorrect ? '✅' : '❌'}</div>
+					<div class="feedback-title">${isCorrect ? 'CORRECT!' : 'WRONG!'}</div>
+					<div class="feedback-answer">
+						<div>Your answer: ${userAnswer}</div>
+						${!isCorrect ? `<div>Correct answer: ${currentQuestion.correctAnswer}</div>` : ''}
+					</div>
+				</div>
+			`;
+			
+			feedback.className = `answer-feedback ${isCorrect ? 'correct' : 'incorrect'}`;
+			feedback.offsetHeight;
+			feedback.classList.add('show');
+			
+			setTimeout(() => feedback.classList.remove('show'), 3000);
+			
+			try {
+				const sound = document.getElementById(isCorrect ? 'correctSound' : 'incorrectSound');
+				sound.currentTime = 0;
+				sound.play();
+			} catch(e) {
+				console.log('Sound playback failed');
+			}
+		}
+
+
+
+		function checkAnswer() {
+			const userAnswer = parseInt(document.getElementById('answerInput').value) || 0;
+			const isCorrect = userAnswer === currentQuestion.correctAnswer;
+			
+			showFeedback(isCorrect);
+			
+			if (isCorrect) {
+				score++;
+				consecutiveCorrect++;
+				if (score >= gameSettings.levels.medium.required && maxLevelUnlocked === 'easy') {
+					maxLevelUnlocked = 'medium';
+					showLevelUpNotification('Medium');
+				} else if (score >= gameSettings.levels.hard.required && maxLevelUnlocked === 'medium') {
+					maxLevelUnlocked = 'hard';
+					showLevelUpNotification('Hard');
+				}
+				document.getElementById('score').textContent = `Score: ${score}`;
+			} else {
+				consecutiveCorrect = 0;
+			}
+
+			history.push({
+				question: currentQuestion.questionText,
+				userAnswer: userAnswer,
+				correctAnswer: currentQuestion.correctAnswer,
+				correct: isCorrect,
+				time: timer,
+				difficulty: difficulty
+			});
+
+			updateHistory();
+			document.getElementById('answerInput').value = '';
+			generateQuestion();
+		}
+
+		function showLevelUpNotification(level) {
+			const feedback = document.getElementById('answerFeedback');
+			feedback.innerHTML = `
+				<div class="feedback-content">
+					<div class="feedback-icon">🎉</div>
+					<div class="feedback-text">
+						<div class="feedback-title">Level Unlocked!</div>
+						<div class="feedback-answer">
+							You've unlocked ${level} difficulty!
+						</div>
+					</div>
+				</div>
+			`;
+			feedback.className = 'answer-feedback correct';
+			feedback.classList.add('show');
+			setTimeout(() => feedback.classList.remove('show'), 2500);
+		}
+
+		function resetTimer() {
+			clearInterval(timerInterval);
+			timer = 0;
+			document.getElementById('timer').textContent = `Time: ${timer}s`;
+			timerInterval = setInterval(() => {
+				timer++;
+				document.getElementById('timer').textContent = `Time: ${timer}s`;
+			}, 1000);
+		}
+
+		function updateHistory() {
+			const tbody = document.getElementById('historyTableBody');
+			tbody.innerHTML = '';
+			
+			history.slice().reverse().forEach(item => {
+				const row = tbody.insertRow();
+				row.innerHTML = `
+					<td>${item.question}</td>
+					<td>${item.userAnswer}</td>
+					<td class="text-success fw-bold">${item.correctAnswer}</td>
+					<td><span class="badge ${item.correct ? 'bg-success' : 'bg-danger'}">
+						${item.correct ? 'Correct' : 'Incorrect'}</span></td>
+					<td>${item.time}s</td>
+					<td>${item.difficulty.charAt(0).toUpperCase() + item.difficulty.slice(1)}</td>
+				`;
+			});
+		}
+
+		// Event Listeners
+		document.getElementById('operationSelect').addEventListener('change', generateQuestion);
+		document.getElementById('difficultySelect').addEventListener('change', updateDifficulty);
+
+		document.getElementById('submitBtn').addEventListener('click', checkAnswer);
+		document.getElementById('answerInput').addEventListener('keypress', (e) => {
+			if (e.key === 'Enter') checkAnswer();
+		});
+
+		// Initialize
+
+		updateDifficultyDisplay();
+		generateQuestion();
+		updateHintsDisplay();
+	</script>
+	<footer class="footer">
+		<p>Made by <strong>OMKAR SHARMA</strong></p>
+		<p class="copyright">© 2024 All rights reserved</p>
+	</footer>
+</body>
+</html>
