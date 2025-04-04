@@ -174,20 +174,20 @@
 		}
 		.answer-feedback {
 			position: fixed;
-			top: 40px;  /* Fixed distance from top */
+			top: 20px;  /* Reduced top distance */
 			left: 50%;
 			transform: translate(-50%, 0) scale(0.95);
-			padding: 1.5rem 2rem;
-			border-radius: 16px;
+			padding: 1.2rem;
+			border-radius: 12px;
 			color: white;
 			font-weight: 600;
 			opacity: 0;
 			z-index: 1000;
 			text-align: center;
-			box-shadow: 0 15px 30px rgba(0,0,0,0.2);
-			width: min(600px, 90%);
+			box-shadow: 0 10px 25px rgba(0,0,0,0.15);
+			width: min(450px, 92%);
 			transition: all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
-			backdrop-filter: blur(12px);
+			backdrop-filter: blur(8px);
 			border: 1px solid rgba(255,255,255,0.1);
 		}
 
@@ -207,15 +207,15 @@
 		.feedback-content {
 			display: flex;
 			align-items: center;
-			gap: 1.2rem;
+			gap: 1rem;
 			padding: 0.5rem;
 		}
 
 		.feedback-icon {
 			background: rgba(255,255,255,0.15);
-			border-radius: 12px;
-			width: 50px;
-			height: 50px;
+			border-radius: 10px;
+			width: 45px;
+			height: 45px;
 			display: flex;
 			align-items: center;
 			justify-content: center;
@@ -223,9 +223,8 @@
 		}
 
 		.feedback-icon i {
-			font-size: 1.8rem;
+			font-size: 1.5rem;
 			color: rgba(255,255,255,0.95);
-			filter: drop-shadow(0 2px 4px rgba(0,0,0,0.1));
 		}
 
 		.feedback-text {
@@ -234,23 +233,23 @@
 		}
 
 		.feedback-title {
-			font-size: 1.5rem;
+			font-size: 1.2rem;
 			font-weight: 700;
-			margin-bottom: 0.5rem;
+			margin-bottom: 0.3rem;
 			text-transform: uppercase;
 			letter-spacing: 0.05em;
 			line-height: 1.2;
 		}
 
 		.feedback-answer {
-			font-size: 1.1rem;
-			line-height: 1.5;
+			font-size: 0.95rem;
+			line-height: 1.4;
 			opacity: 0.9;
 		}
 
 		@keyframes slideDown {
 			0% { 
-				transform: translate(-50%, -100%) scale(0.95);
+				transform: translate(-50%, -120%) scale(0.95);
 				opacity: 0;
 			}
 			100% { 
@@ -261,53 +260,26 @@
 
 		.answer-feedback.show {
 			animation: 
-				slideDown 0.5s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
+				slideDown 0.4s cubic-bezier(0.34, 1.56, 0.64, 1) forwards,
 				pulseGlow 2s ease-in-out infinite;
 		}
 
 		@keyframes pulseGlow {
-			0% { box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
-			50% { box-shadow: 0 20px 40px rgba(0,0,0,0.3); }
-			100% { box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+			0% { box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
+			50% { box-shadow: 0 15px 30px rgba(0,0,0,0.2); }
+			100% { box-shadow: 0 10px 25px rgba(0,0,0,0.15); }
 		}
 
-		/* Responsive styles */
+		/* Mobile-first responsive styles */
 		@media (max-width: 768px) {
 			.answer-feedback {
-				top: 20px;
-				padding: 1.2rem 1.5rem;
-			}
-
-			.feedback-icon {
-				width: 45px;
-				height: 45px;
-			}
-
-			.feedback-icon i {
-				font-size: 1.5rem;
-			}
-
-			.feedback-title {
-				font-size: 1.3rem;
-				margin-bottom: 0.4rem;
-			}
-
-			.feedback-answer {
-				font-size: 1rem;
-			}
-		}
-
-		/* Small mobile devices */
-		@media (max-width: 480px) {
-			.answer-feedback {
-				top: 10px;
+				top: 15px;
 				padding: 1rem;
-				width: 95%;
+				width: 94%;
 			}
 
 			.feedback-content {
-				gap: 1rem;
-				padding: 0.5rem;
+				gap: 0.8rem;
 			}
 
 			.feedback-icon {
@@ -321,23 +293,24 @@
 
 			.feedback-title {
 				font-size: 1.1rem;
-				margin-bottom: 0.3rem;
+				margin-bottom: 0.2rem;
 			}
 
 			.feedback-answer {
 				font-size: 0.9rem;
-				line-height: 1.4;
 			}
 		}
 
-		/* For very small devices */
-		@media (max-width: 360px) {
+		/* Small mobile devices */
+		@media (max-width: 480px) {
 			.answer-feedback {
-				padding: 1rem;
+				top: 10px;
+				padding: 0.8rem;
+				width: 96%;
 			}
 
 			.feedback-content {
-				gap: 0.8rem;
+				gap: 0.6rem;
 			}
 
 			.feedback-icon {
@@ -346,7 +319,7 @@
 			}
 
 			.feedback-icon i {
-				font-size: 1.1rem;
+				font-size: 1.2rem;
 			}
 
 			.feedback-title {
@@ -355,6 +328,32 @@
 
 			.feedback-answer {
 				font-size: 0.85rem;
+				line-height: 1.3;
+			}
+		}
+
+		/* Very small devices */
+		@media (max-width: 360px) {
+			.answer-feedback {
+				padding: 0.7rem;
+				width: 98%;
+			}
+
+			.feedback-icon {
+				width: 32px;
+				height: 32px;
+			}
+
+			.feedback-icon i {
+				font-size: 1.1rem;
+			}
+
+			.feedback-title {
+				font-size: 0.95rem;
+			}
+
+			.feedback-answer {
+				font-size: 0.8rem;
 			}
 		}
 
